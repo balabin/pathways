@@ -1,5 +1,5 @@
 ####vmdStore#### START pathways
 ## Version XXversionXX
 lappend auto_path "$::vmdStorePath/plugins/pathways"
-vmd_install_extension pathways "package require pathways" "VMD Store/pathways" 
+vmd_install_extension pathways "package require pathways; tk_messageBox -message \"Pathways plugin was loaded. \nRun the following command on the TK console to check all the options:\n pathways0\" -icon info -title \"Pathways\"" "VMD Store/pathways" 
 ####vmdStore#### END pathways
