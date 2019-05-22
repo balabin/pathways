@@ -1,0 +1,5 @@
+####vmdStore#### START pathways
+## Version XXversionXX
+lappend auto_path "$::vmdStorePath/plugins/pathways"
+vmd_install_extension pathways "package require pathways" "VMD Store/pathways" 
+####vmdStore#### END pathways
