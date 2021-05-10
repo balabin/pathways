@@ -194,7 +194,10 @@ proc check_params { flags } {
 proc which { name } {
     global env
     set pathname ""
-    set dirs [split $env(PATH) ":"]
+    set OS [lindex $tcl_platform(os) 0]
+    set sep ":"
+    if { $OS == "Windows" } { set sep ";" }
+    set dirs [split $env(PATH) $sep]
     foreach dir $dirs {
         if { [file executable "${dir}/${name}"] } {
             set pathname "${dir}/${name}"
