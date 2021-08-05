@@ -35,7 +35,7 @@ Since a number of users have recently had issues with installing the plugin unde
 These lines tell VMD to look for the Pathways plugin in that directory
 * Add the Pathways home folder to your environmental variable PATH (e.g., following https://www.c-sharpcorner.com/article/add-a-directory-to-path-environment-variable-in-windows-10 or any other manual on the topic)
 * Reboot, start VMD, open Tkconsole, and try running the following command there:  
-  _pathcore_<br>
+    _pathcore_<br>
 If you see a pathcore greeting, you are all set and can start using the Pathways plugin right away. Otherwise, try some troubleshooting, starting with this:  
   Does VMD see the plugin? Open Tkconsole and run the following command there:  
     _package require pathways_<br>
