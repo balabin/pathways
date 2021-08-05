@@ -31,14 +31,14 @@ Since a number of users have recently had issues with installing the plugin unde
 * Install VMD, following the directions from http://www.ks.uiuc.edu/research/vmd
 * Add to the VMD startup file vmd.rc (probably C:\Users\nopphon\vmd.rc ; if not, search for the file) the following lines  
 >     _global env_  
-    _lappend auto_path $env(HOME)/pathways_  
+>    _lappend auto_path $env(HOME)/pathways_  
 These lines tell VMD to look for the Pathways plugin in that directory
 * Add the Pathways home folder to your environmental variable PATH (e.g., following https://www.c-sharpcorner.com/article/add-a-directory-to-path-environment-variable-in-windows-10 or any other manual on the topic)
 * Reboot, start VMD, open Tkconsole, and try running the following command there:  
-    _pathcore_  
+>    _pathcore_  
 If you see a pathcore greeting, you are all set and can start using the Pathways plugin right away. Otherwise, try some troubleshooting, starting with this:  
     Does VMD see the plugin? Open Tkconsole and run the following command there:  
-        _package require pathways_  
+>        _package require pathways_  
     Does Windows see the pathcore executable? Open a terminal and run the following command there:  
-        _pathcore_  
+>        _pathcore_  
 * Delete the pathways-master folder - you no longer need it.
