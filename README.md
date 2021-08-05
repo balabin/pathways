@@ -38,7 +38,7 @@ These lines tell VMD to look for the Pathways plugin in that directory
   _pathcore_<br>
 If you see a pathcore greeting, you are all set and can start using the Pathways plugin right away. Otherwise, try some troubleshooting, starting with this:  
   Does VMD see the plugin? Open Tkconsole and run the following command there:  
-    _package require pathways_<br>  
+    _package require pathways_<br>
   Does Windows see the pathcore executable? Open a terminal and run the following command there:  
-    _pathcore_<br> 
+    _pathcore_<br>
 * Delete the pathways-master folder - you no longer need it.
