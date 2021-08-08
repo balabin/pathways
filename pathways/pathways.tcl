@@ -3,9 +3,10 @@
 #########################################################################
 
 ###
-# pathways.tcl  (C) 2012-2019
+# pathways.tcl  (C) 2012-2021
 # Authors:      Ilya Balabin (project design and management, VMD integration,
-#                             user interfaces, graphics, animation) <ilya.balabin@duke.edu>
+#                             user interfaces, graphics, animation)
+#                             <ilya.balabin@duke.edu>
 #               Xiangqian Hu (graph search wrapper)
 #               David Beratan (general management)
 # Released under the terms of GNU public license version 3.0 or later
@@ -195,12 +196,18 @@ proc which { name } {
     global env
     set pathname ""
     set OS $tcl_platform(platform)
+    # separator between individual directories in the path
     set sep ":"
-    if { $OS == "windows" } { set sep ";" }
+    # connector between directory name and file name
+    set jn "/"
+    if { $OS == "windows" } { 
+	set sep ";"
+	set jn "\"
+    }
     set dirs [split $env(PATH) $sep]
     foreach dir $dirs {
-        if { [file executable "${dir}/${name}"] } {
-            set pathname "${dir}/${name}"
+        if { [file executable "${dir}${jn}${name}"] } {
+            set pathname "${dir}${jn}${name}"
             break
         }
     }
