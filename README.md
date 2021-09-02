@@ -1,6 +1,8 @@
 # Introduction
 Pathways is a VMD plugin for identifying and visualizing electron tunneling pathways in redox proteins (see https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.22927 for the article in J. Comput. Chem. and https://people.chem.duke.edu/~ilya/Software/Pathways/docs/pathways.html for more on theoretical background).
 
+### UPDATE: as the second web page is not accessible and may remain such for a while, please see the Internet Wayback Machine copy of the page instead: https://web.archive.org/web/20181212035913/http://people.chem.duke.edu/~ilya/Software/Pathways/docs/pathways.html .
+
 ## Installation
 
 Repository structure:
