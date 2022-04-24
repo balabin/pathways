@@ -39,8 +39,8 @@
 #########################################################################
 
 ### Tell Tcl that we're a package and any dependencies we may have
-set path_version "1.3"
-package provide pathways 1.3
+set path_version "1.4"
+package provide pathways 1.4
 
 ### package help
 proc pathways0_usage {} {
@@ -193,23 +193,28 @@ proc check_params { flags } {
 
 ### analog of unix shell which
 proc which { name } {
+
     global env
+    global tcl_platform
+
     set pathname ""
-    set OS $tcl_platform(platform)
-    # separator between individual directories in the path
-    set sep ":"
-    # connector between directory name and file name
-    set jn "/"
-    if { $OS == "windows" } { 
-	set sep ";"
-	set jn "\"
+    switch $tcl_platform(platform) {
+	windows {
+	    set sep ";"
+	    set jn "\\"
+	}
+	default {
+	    set sep ":"
+	    set jn "/"
+	}
     }
+    
     set dirs [split $env(PATH) $sep]
     foreach dir $dirs {
-        if { [file executable "${dir}${jn}${name}"] } {
-            set pathname "${dir}${jn}${name}"
-            break
-        }
+	if { [file executable "${dir}${jn}${name}"] } {
+	    set pathname "${dir}${jn}${name}"
+	    break
+	}
     }
     if { $pathname == "" } {
         puts "ERROR: \"$name\" not found, exiting"

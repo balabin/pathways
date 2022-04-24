@@ -8,4 +8,4 @@
 # script is sourced, the variable $dir must contain the
 # full path name of this file's directory.
 
-package ifneeded pathways 1.3 [list source [file join $dir pathways.tcl]]; set env(PATHWAYSDIR) "[list $dir]"
+package ifneeded pathways 1.4 [list source [file join $dir pathways.tcl]]; set env(PATHWAYSDIR) "[list $dir]"
