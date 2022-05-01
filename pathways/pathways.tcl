@@ -191,38 +191,6 @@ proc check_params { flags } {
     return 0
 }
 
-### analog of unix shell which
-proc which { name } {
-
-    global env
-    global tcl_platform
-
-    set pathname ""
-    switch $tcl_platform(platform) {
-	windows {
-	    set sep ";"
-	    set jn "\\"
-	}
-	default {
-	    set sep ":"
-	    set jn "/"
-	}
-    }
-    
-    set dirs [split $env(PATH) $sep]
-    foreach dir $dirs {
-	if { [file executable "${dir}${jn}${name}"] } {
-	    set pathname "${dir}${jn}${name}"
-	    break
-	}
-    }
-    if { $pathname == "" } {
-        puts "ERROR: \"$name\" not found, exiting"
-        quit
-    }
-    return $pathname
-}
-
 ### get covalent bond list
 proc get_cbonds { sel } {
 
@@ -611,7 +579,7 @@ proc pathways { args } {
     global path_version
     
     # find pathcore binary
-    set pathcore [which "pathcore"]
+    set pathcore "pathcore"
     if { ![llength $pathcore] } {
 	puts "$ph ERROR: can not find a pathcore binary!"
 	puts "$ph        Make sure pathcore is installed and in your path!"
@@ -972,7 +940,7 @@ proc pathways { args } {
 
     # parse pathways
     set pathways {}
-    set FJ [ open "${out}1.out" "r" ]
+    set FH [ open "${out}1.out" "r" ]
     foreach line [split [read $FH] "\n"] {
 	if { [regexp {^\s?$} $line] } { continue }
 	lappend pathways [ line2path $line $d1list $a1list ]
