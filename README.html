@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>Pathways plugin for VMD</title>
+  <meta name="generator" content="Bluefish 2.2.12" />
+  <meta name="generator" content="Bluefish 2.2.12" />
+</head>
+
+<body>
+<p><a id="auto-1"></a></p>
+
+<h1><em>Pathways</em> Plugin for VMD</h1>
+
+<table border="0" style="width: 100%">
+  <col />
+  <col />
+  <tbody>
+    <tr>
+      <td><p><em><a href="#Background">Background and theory</a></em></p>
+
+        <p><em><a href="#Downloadin">Downloading and installing</a></em></p>
+
+        <p><a href="#Getting">Getting started</a></p>
+
+        <p><em><a href="#Usage">Usage notes</a></em></p>
+
+        <p><em><a href="#Parameters">Parameters</a></em></p>
+
+        <p><em><a href="#Contributi">Licensing and acknowledgments</a></em></p>
+      </td>
+      <td><script type="text/javascript">
+var _cd_options = { theme: 'red' };</script>
+
+        <div>
+        <script type="text/javascript"
+        src="//fightforthefuture.github.io/countdown-widget/widget.min.js">
+ </script>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
+
+<p></p>
+
+<p><a name="Background" id="Background"><strong>Background and
+theory</strong>.</a> The <em>Pathways</em> plugin for VMD provides the
+functionality to identify dominant electron transfer (ET) pathways and estimate
+the donor-to-acceptor electronic tunneling coupling in biological redox
+reactions as well as ET reactions in engineered biomolecular systems. Since
+those reactions typically occur in the weak-coupling tunneling regime, their
+rates are reasonably well described by the Fermi Golden rule (R. A. Marcus and
+N. Sutin, <i>Biochim. Biophys. Acta</i> <b>811</b>, 265-322 (1985)):</p>
+
+<p></p>
+
+<p style="text-align:center;margin-left:auto;margin-right:auto;"><img
+src="pathways-1.png" style="vertical-align: -18.2235px" alt="" /> , </p>
+
+<p>where <img src="images/pathways-4.png" style="vertical-align: -2.9565px" alt="" />
+is the donor-to-acceptor tunneling coupling, and the middle term in the right
+hand side is the Franck-Condon factor (the probability of the donor and
+acceptor to form a resonance activated complex), which is controlled by two
+energy parameters, <img src="images/pathways-2.png" style="vertical-align: -0.64px"
+alt="" /> (the driving force) and <img src="images/pathways-3.png"
+style="vertical-align: -0.512px" alt="" /> (the reorganization energy). While
+the Franck-Condon factor plays an important role, the overall
+usually-exponential dependence of <img src="images/pathways-5.png"
+style="vertical-align: -2.9565px" alt="" /> on the tunneling distance is
+primarily controlled by <img src="images/pathways-4.png"
+style="vertical-align: -2.9565px" alt="" />. </p>
+
+<p>The <em>Pathways</em> plugin is based on the <i>Pathways</i> model (D. N.
+Beratan, J. N. Betts, and J. N. Onuchic, <i>Science</i> <b>252</b>, 1285-1288
+(1991)), the first theoretical framework to characterize the influence of the
+protein structure on <img src="images/pathways-4.png"
+style="vertical-align: -2.9565px" alt="" />in biological ET reactions. It
+assumes that ET from the donor to the acceptor occurs via pathways -- sequences
+of steps from one electronic state (usually atom-centered one) to another. The
+steps can be mediated by covalent bonds, hydrogen bonds, or through-space
+jumps, all characterized by different tunneling barriers. Each step is assigned
+a penalty: the softest ones describe covalent bond-nediated steps (lower
+tunneling barriers), the steepest distance-dependent ones describe
+through-space jumps (higher tunneling barriers), and hydrogen bond-mediated
+steps are treated as combinations of a covalent bond-mediated step and a
+through-space jump. The overall penalty for ET along the pathway is then
+calculated as a product of penalties for each step:</p>
+
+<p style="text-align:center;margin-left:auto;margin-right:auto;"><img
+src="pathways-6.png" style="vertical-align: -9.572px" alt="" /></p>
+
+<p>where <img src="images/pathways-8.png" style="vertical-align: -3.4725px" alt="" />
+is the penalty for propagation through covalent bond <img src="images/pathways-9.png"
+style="vertical-align: -0.512px" alt="" />, <img src="images/pathways-10.png"
+style="vertical-align: -6.1605px" alt="" /> is the penalty for propagation
+through hydrogen bond <img src="images/pathways-11.png"
+style="vertical-align: -4.096px" alt="" />, and <img src="images/pathways-12.png"
+style="vertical-align: -3.749px" alt="" /> is the penalty for through-space
+jump <img src="images/pathways-13.png" style="vertical-align: -0.512px" alt="" />. In
+the most common parameterization (see the above reference), the penalty for any
+covalent bond-mediated step is <img src="images/pathways-14.png"
+style="vertical-align: -3.4725px" alt="" />, the penalty for a hydrogen
+bond-mediated step is <img src="images/pathways-15.png"
+style="vertical-align: -6.1605px" alt="" />, and the penalty for a
+through-space jump is <img src="images/pathways-16.png"
+style="vertical-align: -5.458px" alt="" />, where <img src="images/pathways-17.png"
+style="vertical-align: -0.64px" alt="" /> is the step distance in Angstroms. In
+this parameterization, hydrogen atoms are <i>not</i> included explicitly in the
+model, and hydrogen bond lengths are measured between heavy atoms. Several
+other parameterizations of the <i>Pathways</i> model exist, providing similar
+<img src="images/pathways-4.png" style="vertical-align: -2.9565px" alt="" />
+estimates. </p>
+
+<p>The <em>Pathways</em> plugin provides four key functionalities: </p>
+<ul>
+  <li>Identify, visualize, and animate the strongest ET pathways between the
+    donor and the acceptor</li>
+  <li>Estimate partial electronic couplings mediated by each pathway</li>
+  <li>Calculate importance of individual protein atoms for mediating ET
+    pathways and visualize relevant atoms</li>
+  <li>Analyze the electronic coupling statistics over a molecular dynamics (MD)
+    trajectory</li>
+</ul>
+
+<p>Starting from version 1.1, the <em>Pathways</em> plugin includes the
+capability to describe <em>collective electronic states</em>, in which
+electrons are delocalized over several atoms, as in protein amino acid side
+chains (His, Phe, Trp, and Tyr) or nucleic acid bases. These states are
+abundant in some redox proteins (e.g., cryptochromes or photolyase) as well as
+engineered molecular complexes based on nucleic acid templates. Because of
+electron delocalization, these states may essentially influence ET pathways and
+redox reaction rates, thereby regulating protein biological function or
+operation of molecular electronic devices. The <em>Pathways</em> plugin
+accounts for these states by assigning no penalty to electron propagation
+<em>within</em> each state.</p>
+
+<p></p>
+
+<p><b><a name="Downloadin" id="Downloadin">Downloading and installing.</a></b>
+The <em>Pathways</em> plugin consists of two components: Tcl <em></em>scripts
+and the graph search utility <em>pathcore</em>. The Tcl scripts are common for
+all platform/OS combinations. The <em>pathcore</em> utility is provided as
+statically compiled binaries for 64-bit or 32-bit <em></em>Linux, 64-bit Mac OS
+(Sierra), and 64-bit Windows. In addition, as mandated by the GPL, source code
+is provided. <br />
+Installing the latest version of the plugin (1.2) is strongly recommended.
+Earlier versions are provided with no support.</p>
+
+<table border="1" style="width: 100%">
+  <col />
+  <col />
+  <col />
+  <tbody>
+    <tr>
+      <td><em>Plugin version</em></td>
+      <td><em>Tcl scripts</em></td>
+      <td><em>Pathcore</em></td>
+    </tr>
+    <tr>
+      <td><p><strong><em>Pathways</em> 1.2</strong> (recommended)</p>
+      </td>
+      <td><p><a href="../release_1.2/pathways.tgz">Tcl scripts</a> (tar.gz) </p>
+      </td>
+      <td><ul>
+          <li><a href="../release_1.2/pathcore_x86-64">Pathcore binary for
+            Linux (64 bit)</a></li>
+          <li><a href="../release_1.2/pathcore_i386">Pathcore binary for Linux
+            (32 bit)</a></li>
+          <li><a href="../release_1.2/pathcore_Darwin">Pathcore binary for Mac
+            OS (64 bit)</a></li>
+          <li><a href="../release_1.2/pathcore.zip">Pathcore binary for Windows
+            (64 bit)</a></li>
+          <li><a href="../release_1.2/pathcore_unix.tgz">Pathcore source code
+            for Linux and Mac (tar.gz)</a></li>
+          <li><a href="../release_1.2/pathcore_windows.zip">Pathcore source
+            code for Windows (zip)</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><p><em>Pathways</em> 1.1</p>
+      </td>
+      <td><p><a href="../release_1.1/pathways.tgz">Tcl scripts</a> (tar.gz) </p>
+      </td>
+      <td><ul>
+          <li><a href="../release_1.1/pathcore_x86-64">Pathcore binary for
+            Linux (64 bit)</a></li>
+          <li><a href="../release_1.1/pathcore_i386">Pathcore binary for Linux
+            (32 bit)</a></li>
+          <li><a href="../release_1.1/pathcore.tgz">Pathcore source code
+            (tar.gz)</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><p><em>Pathways</em> 1.0</p>
+      </td>
+      <td><p><a href="../release_1.0/pathways.tgz">Tcl scripts</a> (tar.gz)</p>
+      </td>
+      <td><ul>
+          <li><a href="../release_1.0/pathcore_x86-64">Pathcore binary for
+            Linux (64 bit)</a></li>
+          <li><a href="../release_1.0/pathcore_i386">Pathcore binary for Linux
+            (32 bit)</a></li>
+          <li><a href="../release_1.0/pathcore.tgz">Pathcore source code
+            (tar.gz)</a></li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p></p>
+
+<p>To install <em>Pathways</em> on any UNIX-like platform, including Mac OS X,
+follow the following steps:<br />
+</p>
+<ol>
+  <li>Create a personal VMD plugin directory, for example: 
+    <p style="margin-left:2em;"><tt>mkdir ~/vmd/plugins</tt></p>
+  </li>
+  <li><p>Download the Tcl scripts archive and extract it in the above
+    directory: </p>
+    <p style="margin-left:2em;"><tt>cd ~/vmd/plugins; tar -xvzf
+    pathways.tgz</tt></p>
+  </li>
+  <li><p>Create a personal VMD configuration file <tt>~/.vmdrc</tt> and add the
+    following lines there: </p>
+    <p><tt>global env<br />
+    l</tt><tt>append auto_path $env(HOME)/vmd/plugins</tt></p>
+  </li>
+  <li>Download the appropriate <em>pathcore</em> binary for your platform. For
+    Linux and Mac OS, rename the binary to 'pathcore' (this is important!). For
+    all platforms, place the binary into a directory in your path. Normally,
+    that should be all you need. 
+    <p>If, for any reason, you prefer compiling the binary yourself, perform
+    the following steps:</p>
+    <ul>
+      <li>Download and install an appropriate development environment. GNU C++
+        compiler/linker is strongly recommended, and it is usually included in
+        Linux distributions. For Mac OS, install <a
+        href="https://developer.apple.com/xcode">XCode</a>. For Windows,
+        install a MinGW distro from <a
+        href="https://nuwen.net/mingw.html">Numen</a>.</li>
+      <li>Download and install Boost libraries from <a
+        href="http://www.boost.org/">Boost.org</a> or, on Linux, from your
+        favorite package manager. On Windows, Numen already includes Boost
+        libraries.</li>
+      <li>Unpack the pathcore code archive and run the 'Compile_***' script for
+        your platform that is included in the source code.</li>
+      <li>Place the compiled executable into a directory in your path.
+        <p></p>
+      </li>
+    </ul>
+  </li>
+  <li>On Linux and Mac OS, run the following command:
+    <p style="margin-left:2em;"><tt>which pathcore</tt></p>
+    <p>If the pathcore binary is placed in a directory in your path, this
+    command prints a full path to the binary. Otherwise, it prints an error
+    message that the command is not found. For setting up the correct path on
+    Windows, please consult Windows documentation.</p>
+  </li>
+</ol>
+
+<p><a name="Getting" id="Getting"><strong>Getting started.</strong></a> Like
+any other VMD plugin, <em>Pathways</em> needs to be loaded into VMD before
+using. To do that, run the following command in the VMD console (better yet, <a
+href="http://www.ks.uiuc.edu/Research/vmd/plugins/vmdtkcon/">Tk console</a>):
+</p>
+
+<p style="margin-left:2em;"><tt>package require pathways</tt></p>
+
+<p>If the plugin installation was successful, you will see the plugin version.
+If you plan on using the plugin on a regular basis, you might wish to add the
+above command to your <code>$HOME/.vmdrc</code> file.</p>
+
+<p>To get the list of available commands, run '<tt>pathways</tt>' with no
+parameters. Then, run each listed command with no parameters to see brief usage
+help. </p>
+
+<p>To get started, load your ET-mediating molecule into VMD and run a command
+similar to the following one (make sure to replace these donor and acceptor
+names with the actual ones): </p>
+
+<p style="margin-left:2em;"><tt>pathways -d "name CU" -a "name RU" -b "segid A
+RBU"</tt></p>
+
+<p>This command calculates and displays the strongest ET pathway and prints a
+list of pathway steps (atoms, step type, step distance, and distance along the
+pathway).</p>
+
+<p>Now, it is time to try some advanced commands - for example, run
+<em>Pathways</em> using a molecular dynamics trajectory or estimate importance
+of individual atoms for mediating the electronic coupling. Try changing some
+parameters (see the complete list below) and find out how they influence the ET
+pathways and the electronic donor-to-acceptor coupling.</p>
+
+<p></p>
+
+<p><b><a name="Usage" id="Usage">Usage notes.</a></b> These aspects of
+<em>Pathways</em> operation are relevant for obtaining the correct and
+meaningful results:</p>
+
+<p><span style="color:#ff0000"><u><em>Chemical structure.</em></u></span> In
+the pathway search, <em>Pathways</em> essentially depends on bond information,
+and missing even a single bond may lead to grossly incorrect results. Since
+<em>Pathways</em> receives bond information from VMD, it is helpful to
+understand how VMD identifies bonds. </p>
+
+<p>If a structure file was loaded, VMD reads the covalent bond list from that
+file. A structure file in the PSF format can be generated by one of VMD
+plugins, <tt><b><a
+href="http://www.ks.uiuc.edu/Research/vmd/plugins/psfgen/">psfgen</a></b></tt>
+or <tt><b><a
+href="http://www.ks.uiuc.edu/Research/vmd/plugins/autopsf">autopsf</a></b></tt>,
+using a coordinate file (e.g., PDB) and one of <a
+href="http://mackerell.umaryland.edu/CHARMM_ff_params.html">Charmm topology
+files</a>. While generating a structure file, VMD plugins also add hydrogen
+atoms needed to identify hydrogen bonds. An <a
+href="http://www.ks.uiuc.edu/Research/namd/2.6/ug/node19.html">example of
+structure file generation</a> is available from the NAMD2 user's guide. Note
+that the topology files only describe common biomolecular fragments such as
+amino acids, nucleic acids, and lipids. If the molecule includes an uncommon
+group (e.g., a metal cofactor), one needs to use <tt>psfgen</tt> (and
+<b>not</b> <tt>autopsf</tt>!) in order to manually define covalent bonds in
+that group using <i>patches</i> (see the above example). </p>
+
+<p>If a structure file was not loaded, VMD attempts to guess covalent bonds
+using interatomic distances and a set of empiric rules for common biomolecular
+fragments. For VMD to identify hydrogen bonds, hydrogens should be already
+added to the structure using the above VMD plugins or 3rd party tools (e.g., <a
+href="http://www.pymol.org/">Pymol</a>). Again, if an uncommon group is present
+in the molecule, one needs to manually define covalent bonds in that group
+using <tt>addbond</tt> and <tt>delbond</tt> commands described in the
+<em>Pathways</em> built-in help. In addition, <em>Pathways</em> requires
+segment IDs to be assigned, which can be done by <tt>setseg</tt> command. </p>
+
+<p>Summarizing the above, here is a brief description of possible ways to
+prepare molecules for calculations with <em>Pathways</em>, in order of
+preference: </p>
+<ol>
+  <li>Generate a PSF structure file using <tt>psfgen</tt>, the coordinate file,
+    and a Charmm topology file and manually define uncommon covalent bonds, if
+    any, using patches. Load the molecule in VMD as the structure file
+    <b>and</b> the coordinate file. </li>
+  <li>Generate a PSF structure using <tt>autopsf</tt>, the coordinate file, and
+    a Charmm topology file. Load the molecule in VMD as the structure file
+    <b>and</b> the coordinate file. Use <tt>addbond</tt> and/or
+    <tt>delbond</tt> commands to correct bond structure, if needed, and use
+    <tt>setseg</tt> command to assign segment IDs, if needed. </li>
+  <li>Add hydrogen atoms using any tool. Load the molecule into VMD as the
+    coordinate file alone. Use <tt>addbond</tt> and/or <tt>delbond</tt>
+    commands to correct bond structure, if needed, and use <tt>setseg</tt>
+    command to assign segment IDs, if needed.</li>
+</ol>
+
+<p><em><span style="color:#ff0000"><u>Internal limitations.</u></span></em> The
+<span style="color:#ff0000"></span><i>Pathways</i> model has been designed and
+parameterized to describe the weak-coupling tunneling regime typical for many
+biological ET reactions, in which the tunneling coupling is dominated by the
+strongest pathways. Whereas it provides reasonable qualitative coupling
+estimates for these reactions, other ET reactions occur in essentially
+different regimes, most notably:</p>
+<ul>
+  <li>Reactions that occur in the strong coupling regime (small HOMO-LUMO)</li>
+  <li>Reactions dominated by electron/hole hopping rather than tunneling</li>
+  <li>Reactions controlled by destructive electronic interference among
+    multiple pathways</li>
+  <li>Water-mediated reactions, (tunneling is largely mediated by hydrogen
+    bonds rather than covalent bonds)</li>
+</ul>
+
+<p>Using the <em>Pathways</em> model for estimating rates of these reactions
+might lead to grossly incorrect results. Nevertheless, even in these systems,
+the <em>Pathways</em> model may provide valuable qualitative insights into ET
+reaction mechanisms when (and if) the above factors are properly addressed. For
+example, a statistical analysis of the coupling fluctuations along a molecular
+dynamics trajectory may help to incorporate effects of destructive electronic
+interference (e.g., Balabin, Skourtis, and Beratan, <em>Phys. Rev. Lett.</em>
+<strong>101</strong>, 158102 (2008)). Renormalizing decays per step could help
+describe hopping-dominated transport (e.g., ET in nucleic acids) or
+water-mediated tunneling. However, while these modifications appear feasible,
+they have not been properly tested yet. As such, <em>Pathways</em>-based
+estimates for the above reactions should be taken with care.</p>
+
+<p></p>
+
+<p><b><a name="Parameters" id="Parameters">Parameters.</a></b> Using
+<em>Pathways</em> is simple: there are only two required parameters, atom
+selection strings for the donor and the acceptor. At the same time,
+<em>Pathways</em> accepts a large number of parameters that make it fully
+configurable. These parameters, however, can (and some of them should!) be
+safely left at their default values. The following is the complete parameter
+list; the parameter values are for illustration only: </p>
+
+<blockquote>
+  <p><b>Mandatory parameters:</b> </p>
+  <ul>
+    <li><tt>-d "name FE"</tt> - donor atom selection string </li>
+    <li><tt>-a "name RU"</tt> - acceptor atom selection string </li>
+  </ul>
+
+  <p><b>Marcus ET rate estimate parameters:</b> </p>
+  <ul>
+    <li><tt>-lambda 0.3</tt> - ET reaction reorganization energy (eV) </li>
+    <li><tt>-deltag 0.0</tt> - ET reaction driving force (eV) </li>
+  </ul>
+
+  <p><b>Generic parameters:</b> </p>
+  <ul>
+    <li><tt>-mol 3</tt> - molecule ID (default same as top molecule) </li>
+    <li><tt>-frame 10</tt> - trajectory frame number (default 0 = first frame)
+    </li>
+    <li><tt>-b "not water and not name SOD CLA"</tt> - bridge atom selection
+      string (make sure <b>not</b> to include water or ions for unimolecular ET
+      reactions!) </li>
+    <li><tt>-p 5</tt> - number of pathways to analyze (default 1) </li>
+    <li><tt>-q 1</tt> - evaluate importance of bridge atoms - <b>slow!</b>
+      (default 0 = no) </li>
+    <li><tt>-renv 5</tt> - pathway environment size (default 4 Å)</li>
+    <li><tt>-cda 1</tt> - treat all donor (acceptor) atoms as a single
+      electronic state (default 1 = yes). Otherwise, <i>Pathways</i> calculates
+      couplings between each donor atom and each acceptor atom, requiring <img
+      src="pathways-18.png" style="vertical-align: -2.937px" alt="" /> times
+      more time. </li>
+  </ul>
+
+  <p><b><i>Pathways</i> model parameters:</b> </p>
+  <ul>
+    <li><tt>-withh 1</tt> - include hydrogen atoms (default 0 = no) </li>
+    <li><tt>-hcut 4</tt> - hydrogen bond cutoff distance (default 3 Å) </li>
+    <li><tt>-hang 30</tt> - hydrogen bond cutoff angle (default 30&amp;deg)
+    </li>
+    <li><tt>-tscut 5</tt> - through-space jump cutoff distance (default 6 Å)
+    </li>
+    <li><tt>-procut 6</tt> - protein pruning margin (default 7 Å) </li>
+    <li><tt>-epsc 0.7</tt> - penalty per covalent bond-mediated step (default
+      0.6) </li>
+    <li><tt>-epsh 0.5</tt> - prefactor for a hydrogen bond-mediated step
+      (default 0.36) </li>
+    <li><tt>-exph 1.8</tt> - distance decay for hydrogen bond-mediated steps
+      (default 1.7 Å<sup>-1</sup>) </li>
+    <li><tt>-r0h 2.7</tt> - distance offset for hydrogen bond-mediated step
+      (default 2.8 Å) </li>
+    <li><tt>-epsts 0.7</tt> - prefactor for a through-space jump (default 0.6)
+    </li>
+    <li><tt>-espts 1.8</tt> - distance decay for through-space jumps (default
+      1.7 Å<sup>-1</sup>) </li>
+    <li><tt>-r0ts 1.5</tt> - distance offset for through-space jumps (default
+      1.4 Å) </li>
+  </ul>
+
+  <p><b>Output parameters:</b> </p>
+  <ul>
+    <li><tt>-o azurin3</tt> - output file prefix (default "pathways") </li>
+    <li><tt>-debug 1</tt> - generate debugging output (default 0 = no) </li>
+  </ul>
+
+  <p><b>Graphics parameters:</b> </p>
+  <ul>
+    <li><tt>-rmax 0.3</tt> - max radius of pathways (default 0.5) </li>
+    <li><tt>-res 30</tt> - resolution for pathways (default 20) </li>
+    <li><tt>-col orange</tt> - pathway color (default rainbow coloring by
+      pathway strength) </li>
+    <li><tt>-mat Transparent</tt> - pathway material (default Opaque) </li>
+    <li><tt>-rnd TachyonInternal</tt> - renderer (default none) </li>
+    <li><tt>-snap "test"</tt> - snapshot name prefix when rendering (default
+      "snapshot") </li>
+  </ul>
+
+  <p><strong>Experimental parameters</strong> (version 1.1 and newer): </p>
+  <ul>
+    <li><tt>-cs</tt> - use collective electronic states (default 0 = no)</li>
+    <li><tt>-cf "custom.tcl"</tt> - collective state file (default
+      "collective.tcl" in the plugin directory) </li>
+  </ul>
+</blockquote>
+
+<p></p>
+
+<p><b><a name="Contributi" id="Contributi">Contributions and licensing.</a></b>
+The <em>Pathways</em> plugin is created by <a
+href="http://www.chem.duke.edu/~ilya">Ilya Balabin</a> (project design and
+management, VMD integration, user interfaces, graphics, animation), <a
+href="http://www.chem.duke.edu/~xqhu">Xiangqian Hu</a> (graph search wrapper),
+and <a href="http://www.chem.duke.edu/~beratan">David Beratan</a> (overall
+management) at Duke University. The work was funded by the NIH grant GM-048043.
+</p>
+
+<p>The <em>Pathways</em> plugin is released under the <a
+href="http://www.gnu.org/copyleft/gpl.html">GNU public license</a> version 3 or
+later.</p>
+
+<hr />
+
