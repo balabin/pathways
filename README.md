@@ -30,7 +30,7 @@ This repository includes the current version of code, documentation, and usage e
 The old theory|documentation page, including installation instructions, is in [README.html](README.html). To browse it, please clone the repository and open the file locally on your computer.
 
 ### Installation
-Installation instructions for Linux and MacOS are included into the documentation page. Installation instructions for Windows are in [install_windows.md](install_windows.md).
+Installation instructions for Linux and MacOS are included into the [documentation page](README.html). Installation instructions for Windows are in [install_windows.md](install_windows.md).
 
 ### Usage examples
 Directory [1bex_wt_movie](1bex_wt_movie) includes a complete example of a Pathways plugin run on an MD trajectory with generating a video animation of pathway dynamics. Example output files are included.
