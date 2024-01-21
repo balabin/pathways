@@ -1,47 +1,39 @@
-# Introduction
-Pathways is a VMD plugin for identifying and visualizing electron tunneling pathways in redox proteins (see https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.22927 for the article in J. Comput. Chem. and https://people.chem.duke.edu/~ilya/Software/Pathways/docs/pathways.html for more on theoretical background).
+# Pathways plugin in a nutshell
+This repository includes the current version of code, documentation, and usage examples of the Pathways plugin for VMD described in the 2012 J. Comp. Chem. article (https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.22927). My old Pathways page at Duke University that the article links to (https://people.chem.duke.edu/~ilya/Software/Pathways/docs/pathways.html) will no longer be updated or maintained, nor will I respond to emails to my former Duke University address. (Actually, the old page has not been updated for a while, largely because of Duke requiring to use a non-standard closed-source client for VPN access). Please contact me on Github instead, if needed.
 
-### UPDATE 
-If the latter web page is not accessible, please see the Internet Wayback Machine copy of the page instead: https://web.archive.org/web/20181212035913/http://people.chem.duke.edu/~ilya/Software/Pathways/docs/pathways.html .
+### Repository structure:
+/---
+   |--- 1bex_wt_movie   (example for an MD trajectory with generating a pathway animation)
+   |--- images   (images included in README.html)
+   |--- install_vmdstore.txt   (info for VMD store (https://biosim.pt/how-to-install-vmd-store))
+   |--- install_windows.md   (installation instructions for Windows)
+   |--- LICENSE   (GPL v.3 or later)
+   |--- pathways ---   (code for Pathways plugin and pathcore executable)
+   |                |--- collective.tcl
+   |                |--- pathways.tcl
+   |                |--- pkgIndex.tcl
+   |                |--- pathcore ---
+   |                                 |--- bin ---   (binary executables for different platforms)
+   |                                 |           |--- pathcore_x86-64.zip
+   |                                 |           |--- pathcore_i386.zip
+   |                                 |           |--- pathcore_windows.zip
+   |                                 |           |--- pathcore_darwin.zip
+   |                                 |--- src ---   (source code for different platforms)
+   |                                             |--- Linux_MacOS
+   |                                             |--- Windows
+   |--- README.html   (theory|documentation page)
+   |--- README.md   (this file)
 
-## Installation
+### Documentation
+The old theory|documentation page, including installation instructions, is in README.html. To browse it, please clone the repository and open the file locally on your computer.
 
-Repository structure:
+### Installation
+Installation instructions for Linux and MacOS are included into the documentation page. Installation instructions for Windows are in install_windows.md.
 
-pathways: the Pathways plugin itself
+### Usage examples
+Directory 1bex_wt_movie includes a complete example of a Pathways plugin run on an MD trajectory with generating a video animation of pathway dynamics. Example output files are included.
 
-pathcore/bin: pathcore binaries compiled for Linux (64- and 32-bit), Windows, and MacOS Sierra
-
-pathcore/src: pathcore source code for Linux/MacOS and Windows, respectively, including compile scripts
-
-## Contacts
-ilya.balabin@duke.edu
-
-## Citation
-Balabin, I. A., Hu, X., & Beratan, D. N. (2012). Exploring biological electron transfer pathway dynamics with the Pathways Plugin for VMD. Journal of Computational Chemistry, 33(8), 906–910.
-
-## DOI
-https://doi.org/10.1002/jcc.22927
-
-# Windows installation instructions
-Since a number of users have recently had issues with installing the plugin under Windows, here are step-by-step installation instructions:
-
-* Download a zip archive (pathways-master.zip) of the plugin code from https://github.com/balabin/pathways
-* Unzip the archive anywhere, e.g., in your home folder. That will create a folder named pathways-master
-* Make a permanent folder for the Pathways plugin, e.g., C:\Users\nopphon\pathways (hereafter Pathways home folder)
-* Copy Tcl scripts pathways-master/pathways/pathways.tcl, pathways-master/pathways/pkgIndex.tcl, and pathways-master/pathways/collective.tcl to the Pathways home folder
-* Copy the pathcore utility binary for Windows (pathways-master/pathways/pathcore/bin/pathcore_windows.zip) to the Pathways home folder and unzip the file. That should extract a file called pathcore.exe
-* Install VMD, following the directions from http://www.ks.uiuc.edu/research/vmd
-* Add to the VMD startup file vmd.rc (probably C:\Users\nopphon\vmd.rc ; if not, search for the file) the following lines  
-  _global env_<br>
-  _lappend auto_path $env(HOME)/pathways_<br>
-These lines tell VMD to look for the Pathways plugin in that directory
-* Add the Pathways home folder to your environmental variable PATH (e.g., following https://www.c-sharpcorner.com/article/add-a-directory-to-path-environment-variable-in-windows-10 or any other manual on the topic)
-* Reboot, start VMD, open Tkconsole, and try running the following command there:  
-    _pathcore_<br>
-If you see a pathcore greeting, you are all set and can start using the Pathways plugin right away. Otherwise, try some troubleshooting, starting with this:  
-  Does VMD see the plugin? Open Tkconsole and run the following command there:  
-    _package require pathways_<br>
-  Does Windows see the pathcore executable? Open a terminal and run the following command there:  
-    _pathcore_<br>
-* Delete the pathways-master folder - you no longer need it.
+### Credit
+If you find Pathways helpful, please cite the original Pathways article: 
+Balabin, I. A., Hu, X., & Beratan, D. N. (2012). Exploring biological electron transfer pathway dynamics with the Pathways Plugin for VMD. *J. Comp. Chem.*, **33**(8), 906–910.<br>
+(DOI https://doi.org/10.1002/jcc.22927)
