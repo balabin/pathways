@@ -1,0 +1,25 @@
+To reproduce this benchmark, start VMD, open Tk console, and execute the 
+following commands in it:
+
+1. Load the PSF file into VMD:
+
+	mol load psf ionized.psf
+
+2. Load the trajectory file inro VMD (and wait until loading completes):
+
+	mol addfile 1bex_wt_51frames.dcd
+
+3. Load the Pathways module into VMD:
+
+	package require pathways
+
+4. Run the Pathways command for generating a video of pathway dynamics:
+
+	pathtraj -d "name CU" -a "name RU" -b "protein or resname RBU or (water and same resid as (water and within 2.5 of protein and within 2.5 of resname RBU))" -p 10
+
+Pathways calculations should take a few minutes, depending on your CPU 
+performance. After they complete, examine the files that Pathways 
+generated and compare them with examples in the 'Pathways_Output' 
+directory. Whereas small numerical differences are fine (different 
+compilers|platforms, final precision of atom coordinates in trajectory 
+files, etc), your output should be quantitatively close to the examples.
